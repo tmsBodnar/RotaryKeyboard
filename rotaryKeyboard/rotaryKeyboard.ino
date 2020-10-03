@@ -16,6 +16,7 @@ Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 Button2 b = Button2(SW);
 int counter;
 String rotaryDirection;
+char ABC[] = { 'A', 'B', 'C' };
 
 void setup() {
     // Setup Serial Monitor
@@ -56,13 +57,12 @@ void loop() {
 }
 
 void drawDisplay(String rotaryDirection, int counter){
+  int index = counter >= 0 ? counter % 3 : counter % 3 == 0 ? counter % 3 : 3 - abs(counter) % 3;
+  char selected = ABC[index];
   display.clearDisplay();
-  display.setCursor (2,5);
-  display.print("Dir: ");
-  display.print(rotaryDirection);
-  display.setCursor (2,15);
-  display.print("Counter: ");
-  display.print(counter);
+  display.setTextSize (1);
+  display.setCursor (1,16);
+  display.print(selected);
   display.display();
 }
 
