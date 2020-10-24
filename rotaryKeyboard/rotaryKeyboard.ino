@@ -30,7 +30,6 @@ int selectedABCitemsIndex;
 
 void setup() {
   delay(100);
-    // Setup Serial Monitor
   Serial.begin(9600);
   b.setClickHandler(clickHandler);
   b.setDoubleClickHandler(doubleClickHandler);
@@ -47,8 +46,8 @@ void setup() {
     for(;;);
   } else {
      display.clearDisplay();
-     display.setTextSize (1); 
-     display.setTextColor (WHITE);
+     display.setTextSize(1); 
+     display.setTextColor(WHITE);
      drawDisplay(counter);
      display.display();
   }
@@ -133,11 +132,11 @@ void doubleClickHandler(Button2& btn) {
 
 void longClickHandler(Button2& btn) {
   unsigned int time = btn.wasPressedFor();
+  counter = 0;
   selectedABCitemsIndex += 1;
    if (time > 300) {
       memcpy(selectedABC, ABCitems[selectedABCitemsIndex % 4], characterProType);
       Serial.println("Long clicked");
-      counter = 0;
       drawDisplay(counter);
    }
 }
