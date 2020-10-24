@@ -5,8 +5,8 @@
 #include<Button2.h>
 #include <MD_REncoder.h>
 //rotary
-MD_REncoder R = MD_REncoder(2, 3);
-#define SW 4
+MD_REncoder R = MD_REncoder(4, 5);
+#define SW 7
 //oled screen
 #define SCREEN_WIDTH 128 
 #define SCREEN_HEIGHT 32
