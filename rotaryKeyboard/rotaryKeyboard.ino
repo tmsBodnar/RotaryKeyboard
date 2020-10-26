@@ -4,6 +4,9 @@
 #include <Wire.h>
 #include<Button2.h>
 #include <MD_REncoder.h>
+#include <Fonts/FreeMono9pt7b.h>
+#include <Fonts/FreeMono12pt7b.h>
+#include <Fonts/FreeMonoBold18pt7b.h>
 //rotary
 MD_REncoder R = MD_REncoder(4, 5);
 #define SW 7
@@ -24,6 +27,7 @@ char ABCitems[4][characterProType] = {
 };
 char selectedABC[characterProType];
 char selected;
+String selectedText;
 boolean longClicked;
 int selectedABCitemsIndex;
 
@@ -36,6 +40,7 @@ void setup() {
   b.setLongClickHandler(longClickHandler);
   R.begin();
   counter = 0;
+  selectedText = "";
   selectedABCitemsIndex = 0;
   memcpy(selectedABC, ABCitems[0], characterProType );
    //oled start display
@@ -72,8 +77,9 @@ void drawDisplay(int counter){
   int index = counter >= 0 ? counter % characterProType : counter % characterProType == 0 ? counter % characterProType : characterProType - abs(counter) % characterProType;
   selected = selectedABC[index];
   display.clearDisplay();
-  display.setTextSize (4);
-  display.setCursor (54,4);
+  display.setFont(&FreeMonoBold18pt7b);
+ // display.setTextSize (4);
+  display.setCursor (52,24);
   display.print(selected);
   displayOtherChars(index);
   display.display();
@@ -104,32 +110,33 @@ void displayOtherChars(int index){
   if ( afterThird  >=  sizeof(selectedABC) ) {
     afterThird = afterThird - characterProType;
   }
-  display.setTextSize (3);
-  display.setCursor (32,11);
+  
+  display.setFont(&FreeMono12pt7b);
+  display.setCursor (34,24);
   display.print(selectedABC[beforeFirst]);
-  display.setCursor (81,11);
+  display.setCursor (77,24);
   display.print(selectedABC[afterFirst]); 
-  display.setTextSize (2);
-  display.setCursor (15,18);
+  display.setFont(&FreeMono9pt7b);
+
+  display.setCursor (20,26);
   display.print(selectedABC[beforeSecond]);
-  display.setCursor (102,18);
+  display.setCursor (96,26);
   display.print(selectedABC[afterSecond]); 
-  display.setTextSize (1);
-  display.setCursor (3,25);
+
+  display.setCursor (3,28);
   display.print(selectedABC[beforeThird]);
-  display.setCursor (119,25);
+  display.setCursor (112,28);
   display.print(selectedABC[afterThird]); 
 }
 
 void clickHandler(Button2& btn) {
   Serial.print("Click: ");
-  Serial.println(selected);
+  Serial.print(selected);
 }
 
 void doubleClickHandler(Button2& btn) {
   Serial.println("double clicked");
 }
-
 void longClickHandler(Button2& btn) {
   unsigned int time = btn.wasPressedFor();
   counter = 0;
